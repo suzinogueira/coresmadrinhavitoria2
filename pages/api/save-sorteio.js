@@ -1,82 +1,69 @@
-/*// pages/api/save-sorteio.js
-import fetch from 'node-fetch';
+// pages/api/save-sorteio.js
+import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end('Method not allowed');
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Método não permitido" });
+  }
+
   const { sorteio } = req.body;
-  if (!sorteio) return res.status(400).end('Falta o sorteio');
+  if (!sorteio) {
+    return res.status(400).json({ message: "Nenhum sorteio recebido" });
+  }
 
-//  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
- // const GITHUB_REPO = process.env.GITHUB_REPO; // ex: user/repo
-  const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+  const GITHUB_REPO = process.env.GITHUB_REPO; // Ex: "seuusuario/seurepositorio"
+  const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
 
- // if (!GITHUB_TOKEN || !GITHUB_REPO) return res.status(500).end('Falta configurar GITHUB_TOKEN ou GITHUB_REPO');
-export default function handler(req, res) {
-  return res.status(200).json({ message: "Sorteio salvo com sucesso!" });
-}
-
+  if (!GITHUB_TOKEN || !GITHUB_REPO) {
+    return res.status(500).send("Falta configurar GITHUB_TOKEN ou GITHUB_REPO");
+  }
 
   try {
-    const path = 'public/sorteio.json';
-    const apiBase = 'https://api.github.com';
-    // 1) pegar o SHA do arquivo (se existir)
-    const getUrl = `${apiBase}/repos/${GITHUB_REPO}/contents/${encodeURIComponent(path)}?ref=${GITHUB_BRANCH}`;
-    const getRes = await fetch(getUrl, {
-      headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'sorteio-app' }
+    const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/sorteio.json`;
+
+    // Verifica se o arquivo já existe
+    const getResp = await fetch(apiUrl, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+        Accept: "application/vnd.github.v3+json",
+      },
     });
 
     let sha = null;
-    if (getRes.status === 200) {
-      const getData = await getRes.json();
-      sha = getData.sha;
+    if (getResp.ok) {
+      const json = await getResp.json();
+      sha = json.sha; // se existir, usa o mesmo arquivo
     }
 
-    // 2) preparar conteúdo base64
-    const content = Buffer.from(JSON.stringify(sorteio, null, 2)).toString('base64');
+    // Codifica o conteúdo em base64
+    const contentEncoded = Buffer.from(
+      JSON.stringify(sorteio, null, 2)
+    ).toString("base64");
 
-    // 3) criar/atualizar arquivo
-    const putUrl = `${apiBase}/repos/${GITHUB_REPO}/contents/${encodeURIComponent(path)}`;
-    const body = {
-      message: 'Atualiza sorteio madrinhas',
-      content,
-      branch: GITHUB_BRANCH
-    };
-    if (sha) body.sha = sha;
-
-    const putRes = await fetch(putUrl, {
-      method: 'PUT',
-      headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'sorteio-app', 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+    // Cria ou atualiza o arquivo no GitHub
+    const saveResp = await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+        Accept: "application/vnd.github.v3+json",
+      },
+      body: JSON.stringify({
+        message: "Atualizar sorteio público",
+        content: contentEncoded,
+        branch: GITHUB_BRANCH,
+        sha,
+      }),
     });
 
-    if (!putRes.ok) {
-      const text = await putRes.text();
-      console.error('GitHub put error', text);
-      return res.status(500).send('Erro ao salvar no GitHub: ' + text);
+    if (!saveResp.ok) {
+      const txt = await saveResp.text();
+      return res.status(500).send("Erro ao salvar no GitHub: " + txt);
     }
 
-    return res.status(200).send('OK');
+    return res.status(200).send("Sorteio salvo com sucesso no GitHub!");
   } catch (err) {
-    console.error(err);
-    return res.status(500).send('Erro interno');
+    console.error("Erro ao salvar sorteio:", err);
+    return res.status(500).send("Erro interno: " + err.message);
   }
-}*/
-
-// pages/api/save-sorteio.js
-export default function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Método não permitido' });
-  }
-
-  const { sorteio } = req.body;
-
-  if (!sorteio) {
-    return res.status(400).json({ message: 'Nenhum sorteio recebido' });
-  }
-
-  // Simulação de salvamento (sem GitHub, apenas confirma que deu certo)
-  console.log('Sorteio recebido:', sorteio);
-
-  return res.status(200).json({ message: 'Sorteio salvo com sucesso (simulado)' });
 }
-
