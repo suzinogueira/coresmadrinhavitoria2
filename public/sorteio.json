@@ -1,33 +1,33 @@
 {
-  "Elisângela": {
+  "Eduarda": {
     "color": "Verde Esmeralda",
     "rgb": "rgb(80, 200, 120)"
   },
-  "Gracieli": {
+  "Leni": {
     "color": "Verde Esmeralda",
     "rgb": "rgb(80, 200, 120)"
   },
-  "Nelzi": {
+  "Almira": {
     "color": "Azul Serenity",
     "rgb": "rgb(130, 180, 240)"
-  },
-  "Jamile": {
-    "color": "Azul Serenity",
-    "rgb": "rgb(130, 180, 240)"
-  },
-  "Sara": {
-    "color": "Lilás",
-    "rgb": "rgb(200, 160, 240)"
   },
   "Daniela": {
+    "color": "Azul Serenity",
+    "rgb": "rgb(130, 180, 240)"
+  },
+  "Nelzi": {
     "color": "Lilás",
     "rgb": "rgb(200, 160, 240)"
   },
-  "Bruna": {
+  "Aldri": {
+    "color": "Lilás",
+    "rgb": "rgb(200, 160, 240)"
+  },
+  "Graziele": {
     "color": "Rosa Pink",
     "rgb": "rgb(255, 100, 180)"
   },
-  "Ana Beatriz": {
+  "Kelly": {
     "color": "Rosa Pink",
     "rgb": "rgb(255, 100, 180)"
   },
@@ -35,15 +35,15 @@
     "color": "Amarelo",
     "rgb": "rgb(255, 230, 50)"
   },
-  "Guiomar": {
+  "Jamile": {
     "color": "Amarelo",
     "rgb": "rgb(255, 230, 50)"
   },
-  "Eduarda": {
+  "Bruna": {
     "color": "Roxo Ametista",
     "rgb": "rgb(150, 100, 200)"
   },
-  "Leni": {
+  "Thalyta": {
     "color": "Roxo Ametista",
     "rgb": "rgb(150, 100, 200)"
   },
@@ -51,15 +51,15 @@
     "color": "Terracota",
     "rgb": "rgb(210, 120, 80)"
   },
-  "Aldri": {
+  "Ketlin": {
     "color": "Terracota",
     "rgb": "rgb(210, 120, 80)"
   },
-  "Ketlin": {
+  "Guiomar": {
     "color": "Azul Royal",
     "rgb": "rgb(30, 60, 200)"
   },
-  "Almira": {
+  "Elisângela": {
     "color": "Azul Royal",
     "rgb": "rgb(30, 60, 200)"
   },
@@ -67,15 +67,15 @@
     "color": "Azul Marinho",
     "rgb": "rgb(10, 20, 80)"
   },
-  "Graziele": {
+  "Gracieli": {
     "color": "Azul Marinho",
     "rgb": "rgb(10, 20, 80)"
   },
-  "Kelly": {
+  "Ana Beatriz": {
     "color": "Verde Água",
     "rgb": "rgb(120, 240, 200)"
   },
-  "Thalyta": {
+  "Sara": {
     "color": "Verde Água",
     "rgb": "rgb(120, 240, 200)"
   }
