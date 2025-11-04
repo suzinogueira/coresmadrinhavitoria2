@@ -48,12 +48,42 @@ export default function MadrinhaPage() {
   if (!madrinha) return null;
 
   return (
-    <div style={{ minHeight: '100vh', background: madrinha.rgb, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-      <div style={{ background: 'rgba(0,0,0,0.35)', color: '#fff', borderRadius: 16, padding: 28, textAlign: 'center', maxWidth: 520 }}>
-        <h1 style={{ margin: 0, fontSize: 22 }}>💌 Sua cor sorteada foi:</h1>
-        <p style={{ fontSize: 28, fontWeight: 700, margin: '8px 0' }}>{madrinha.color}</p>
-        <p style={{ marginTop: 6, fontSize: 18 }}><strong>{madrinha.name}</strong></p>
-        <div style={{ marginTop: 10, fontSize: 16 }}>Vitória e Felipe 2026 💍</div>
+     <div
+      style={{
+        minHeight: "100vh",
+        background: madrinha.rgb,
+        color: "#fff",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "'Poppins', sans-serif",
+        textAlign: "center",
+        padding: "20px",
+      }}
+    >
+      <div
+        style={{
+          background: "rgba(0,0,0,0.4)",
+          borderRadius: "16px",
+          padding: "30px 40px",
+          boxShadow: "0 8px 25px rgba(0,0,0,0.3)",
+          maxWidth: "90%",
+        }}
+      >
+        <h1 style={{ fontSize: "1.8rem", marginBottom: "10px" }}>
+          💌 Sua cor sorteada foi:
+        </h1>
+        <p style={{ fontSize: "1.4rem", marginBottom: "20px" }}>
+          <strong>{madrinha.name}</strong>, a cor do seu vestido será{" "}
+          <span style={{ textDecoration: "underline" }}>
+            {madrinha.color}
+          </span>
+          !
+        </p>
+        <h2 style={{ fontWeight: 500, fontSize: "1.2rem" }}>
+          Vitória e Felipe 💍 2026
+        </h2>
       </div>
     </div>
   );
