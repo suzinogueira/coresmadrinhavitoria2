@@ -50,7 +50,7 @@ export default function MadrinhaPage() {
   return (
     <div style={{ minHeight: '100vh', background: madrinha.rgb, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
       <div style={{ background: 'rgba(0,0,0,0.35)', color: '#fff', borderRadius: 16, padding: 28, textAlign: 'center', maxWidth: 520 }}>
-        <h1 style={{ margin: 0, fontSize: 22 }}>💐 Sua cor sorteada foi:</h1>
+        <h1 style={{ margin: 0, fontSize: 22 }}>💌 Sua cor sorteada foi:</h1>
         <p style={{ fontSize: 28, fontWeight: 700, margin: '8px 0' }}>{madrinha.color}</p>
         <p style={{ marginTop: 6, fontSize: 18 }}><strong>{madrinha.name}</strong></p>
         <div style={{ marginTop: 10, fontSize: 16 }}>Vitória e Felipe 2026 💍</div>
