@@ -1,73 +1,73 @@
 {
-  "Eduarda": {
+  "Kátia": {
     "color": "Verde Esmeralda",
     "rgb": "rgb(80, 200, 120)"
   },
-  "Daniela": {
+  "Gracieli": {
     "color": "Verde Esmeralda",
     "rgb": "rgb(80, 200, 120)"
-  },
-  "Rebeca": {
-    "color": "Azul Serenity",
-    "rgb": "rgb(130, 180, 240)"
   },
   "Ketlin": {
     "color": "Azul Serenity",
     "rgb": "rgb(130, 180, 240)"
   },
-  "Sara": {
+  "Elisângela": {
+    "color": "Azul Serenity",
+    "rgb": "rgb(130, 180, 240)"
+  },
+  "Ana Beatriz": {
     "color": "Lilás",
     "rgb": "rgb(200, 160, 240)"
   },
-  "Kátia": {
+  "Eduarda": {
     "color": "Lilás",
     "rgb": "rgb(200, 160, 240)"
+  },
+  "Rebeca": {
+    "color": "Rosa Pink",
+    "rgb": "rgb(255, 100, 180)"
+  },
+  "Jamile": {
+    "color": "Rosa Pink",
+    "rgb": "rgb(255, 100, 180)"
   },
   "Kelly": {
-    "color": "Rosa Pink",
-    "rgb": "rgb(255, 100, 180)"
-  },
-  "Leni": {
-    "color": "Rosa Pink",
-    "rgb": "rgb(255, 100, 180)"
-  },
-  "Almira": {
-    "color": "Amarelo",
-    "rgb": "rgb(255, 230, 50)"
-  },
-  "Simone": {
     "color": "Amarelo",
     "rgb": "rgb(255, 230, 50)"
   },
   "Thalyta": {
+    "color": "Amarelo",
+    "rgb": "rgb(255, 230, 50)"
+  },
+  "Aldri": {
     "color": "Roxo Ametista",
     "rgb": "rgb(150, 100, 200)"
   },
-  "Gracieli": {
+  "Nelzi": {
     "color": "Roxo Ametista",
     "rgb": "rgb(150, 100, 200)"
   },
-  "Elisângela": {
+  "Sara": {
+    "color": "Terracota",
+    "rgb": "rgb(210, 120, 80)"
+  },
+  "Leni": {
     "color": "Terracota",
     "rgb": "rgb(210, 120, 80)"
   },
   "Bruna": {
-    "color": "Terracota",
-    "rgb": "rgb(210, 120, 80)"
-  },
-  "Ana Beatriz": {
     "color": "Azul Royal",
     "rgb": "rgb(30, 60, 200)"
   },
-  "Jamile": {
+  "Daniela": {
     "color": "Azul Royal",
     "rgb": "rgb(30, 60, 200)"
   },
-  "Nelzi": {
+  "Graziele": {
     "color": "Azul Marinho",
     "rgb": "rgb(10, 20, 80)"
   },
-  "Graziele": {
+  "Simone": {
     "color": "Azul Marinho",
     "rgb": "rgb(10, 20, 80)"
   },
@@ -75,7 +75,7 @@
     "color": "Verde Água",
     "rgb": "rgb(120, 240, 200)"
   },
-  "Aldri": {
+  "Almira": {
     "color": "Verde Água",
     "rgb": "rgb(120, 240, 200)"
   }
