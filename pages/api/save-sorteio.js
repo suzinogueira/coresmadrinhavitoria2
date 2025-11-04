@@ -6,11 +6,15 @@ export default async function handler(req, res) {
   const { sorteio } = req.body;
   if (!sorteio) return res.status(400).end('Falta o sorteio');
 
-  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-  const GITHUB_REPO = process.env.GITHUB_REPO; // ex: user/repo
+//  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+ // const GITHUB_REPO = process.env.GITHUB_REPO; // ex: user/repo
   const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
 
-  if (!GITHUB_TOKEN || !GITHUB_REPO) return res.status(500).end('Falta configurar GITHUB_TOKEN ou GITHUB_REPO');
+ // if (!GITHUB_TOKEN || !GITHUB_REPO) return res.status(500).end('Falta configurar GITHUB_TOKEN ou GITHUB_REPO');
+export default function handler(req, res) {
+  return res.status(200).json({ message: "Sorteio salvo com sucesso!" });
+}
+
 
   try {
     const path = 'public/sorteio.json';
