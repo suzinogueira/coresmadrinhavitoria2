@@ -1,81 +1,81 @@
 {
-  "Gracieli": {
-    "color": "Verde Esmeralda",
-    "rgb": "rgb(80, 200, 120)"
-  },
   "Kátia": {
     "color": "Verde Esmeralda",
     "rgb": "rgb(80, 200, 120)"
   },
-  "Simone": {
-    "color": "Azul Serenity",
-    "rgb": "rgb(130, 180, 240)"
-  },
-  "Jamile": {
-    "color": "Azul Serenity",
-    "rgb": "rgb(130, 180, 240)"
-  },
-  "Graziele": {
-    "color": "Lilás",
-    "rgb": "rgb(200, 160, 240)"
-  },
-  "Thalyta": {
-    "color": "Lilás",
-    "rgb": "rgb(200, 160, 240)"
-  },
-  "Nelzi": {
-    "color": "Rosa Pink",
-    "rgb": "rgb(255, 100, 180)"
-  },
-  "Ana Beatriz": {
-    "color": "Rosa Pink",
-    "rgb": "rgb(255, 100, 180)"
+  "Bruna": {
+    "color": "Verde Esmeralda",
+    "rgb": "rgb(80, 200, 120)"
   },
   "Aldri": {
-    "color": "Amarelo",
-    "rgb": "rgb(255, 230, 50)"
+    "color": "Azul Serenity",
+    "rgb": "rgb(130, 180, 240)"
   },
-  "Daniela": {
+  "Leni": {
+    "color": "Azul Serenity",
+    "rgb": "rgb(130, 180, 240)"
+  },
+  "Gracieli": {
+    "color": "Lilás",
+    "rgb": "rgb(200, 160, 240)"
+  },
+  "Guiomar": {
+    "color": "Lilás",
+    "rgb": "rgb(200, 160, 240)"
+  },
+  "Graziele": {
+    "color": "Rosa Pink",
+    "rgb": "rgb(255, 100, 180)"
+  },
+  "Elisângela": {
+    "color": "Rosa Pink",
+    "rgb": "rgb(255, 100, 180)"
+  },
+  "Rebeca": {
     "color": "Amarelo",
     "rgb": "rgb(255, 230, 50)"
   },
   "Sara": {
+    "color": "Amarelo",
+    "rgb": "rgb(255, 230, 50)"
+  },
+  "Simone": {
     "color": "Roxo Ametista",
     "rgb": "rgb(150, 100, 200)"
   },
-  "Rebeca": {
+  "Thalyta": {
     "color": "Roxo Ametista",
     "rgb": "rgb(150, 100, 200)"
   },
-  "Almira": {
-    "color": "Terracota",
-    "rgb": "rgb(210, 120, 80)"
-  },
-  "Leni": {
+  "Nelzi": {
     "color": "Terracota",
     "rgb": "rgb(210, 120, 80)"
   },
   "Kelly": {
+    "color": "Terracota",
+    "rgb": "rgb(210, 120, 80)"
+  },
+  "Jamile": {
     "color": "Azul Royal",
     "rgb": "rgb(30, 60, 200)"
-  },
-  "Ketlin": {
-    "color": "Azul Royal",
-    "rgb": "rgb(30, 60, 200)"
-  },
-  "Elisângela": {
-    "color": "Azul Marinho",
-    "rgb": "rgb(10, 20, 80)"
   },
   "Eduarda": {
+    "color": "Azul Royal",
+    "rgb": "rgb(30, 60, 200)"
+  },
+  "Almira": {
     "color": "Azul Marinho",
     "rgb": "rgb(10, 20, 80)"
   },
-  "Guiomar": {
+  "Ana Beatriz": {
+    "color": "Azul Marinho",
+    "rgb": "rgb(10, 20, 80)"
+  },
+  "Daniela": {
     "color": "Verde Água",
     "rgb": "rgb(120, 240, 200)"
   },
-  "Bruna": {
+  "Ketlin": {
     "color": "Verde Água",
     "rgb": "rgb(120, 240, 200)"
   }
