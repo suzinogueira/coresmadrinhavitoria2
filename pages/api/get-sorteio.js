@@ -73,7 +73,7 @@ export default async function handler(req, res) {
 }
 
 */
-
+/*3
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
@@ -140,5 +140,39 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("Erro geral ao salvar:", error);
     return res.status(500).json({ message: "Erro interno", error });
+  }
+}
+*/
+
+import fetch from "node-fetch";
+
+export default async function handler(req, res) {
+  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+  const GITHUB_REPO = process.env.GITHUB_REPO;
+  const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
+  const filePath = "public/sorteio.json";
+
+  if (!GITHUB_TOKEN || !GITHUB_REPO) return res.status(200).json({});
+
+  try {
+    const r = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`,
+      {
+        headers: { Authorization: `token ${GITHUB_TOKEN}` },
+      }
+    );
+
+    if (!r.ok) return res.status(200).json({});
+
+    const data = await r.json();
+
+    // O conteúdo vem em base64
+    const content = Buffer.from(data.content, "base64").toString("utf-8");
+    const json = JSON.parse(content);
+
+    return res.status(200).json(json);
+  } catch (err) {
+    console.error(err);
+    return res.status(200).json({});
   }
 }
