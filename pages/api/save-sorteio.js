@@ -1,4 +1,4 @@
-// pages/api/save-sorteio.js
+/*// pages/api/save-sorteio.js
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
@@ -60,4 +60,23 @@ export default function handler(req, res) {
     console.error(err);
     return res.status(500).send('Erro interno');
   }
+}*/
+
+// pages/api/save-sorteio.js
+export default function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Método não permitido' });
+  }
+
+  const { sorteio } = req.body;
+
+  if (!sorteio) {
+    return res.status(400).json({ message: 'Nenhum sorteio recebido' });
+  }
+
+  // Simulação de salvamento (sem GitHub, apenas confirma que deu certo)
+  console.log('Sorteio recebido:', sorteio);
+
+  return res.status(200).json({ message: 'Sorteio salvo com sucesso (simulado)' });
 }
+
