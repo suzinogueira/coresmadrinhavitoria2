@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { saveAs } from 'file-saver';
+import { useState, useEffect } from "react";
+import { saveAs } from "file-saver";
 
 const PASSWORD = "vitoria";
 
@@ -17,145 +17,160 @@ const colors = [
 ];
 
 const madrinhasLista = [
-  "Nelzi","Aldri","Kátia","Gracieli","Ana Beatriz",
-  "Elisângela","Eduarda","Ketlin","Jamile","Simone",
-  "Sara","Guiomar","Thalyta","Rebeca","Bruna",
-  "Daniela","Graziele","Leni","Almira","Kelly"
+  "Nelzi", "Aldri", "Kátia", "Gracieli", "Ana Beatriz",
+  "Elisângela", "Eduarda", "Ketlin", "Jamile", "Simone",
+  "Sara", "Guiomar", "Thalyta", "Rebeca", "Bruna",
+  "Daniela", "Graziele", "Leni", "Almira", "Kelly"
 ];
 
 export default function Admin() {
   const [enteredPassword, setEnteredPassword] = useState("");
-  const [results, setResults] = useState({});
-  const [loadingSave, setLoadingSave] = useState(false);
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // ao abrir, busca o sorteio atual do arquivo público (via API interna)
+  // Carregar sorteio existente do GitHub
   useEffect(() => {
-    fetch('/api/get-sorteio')
-      .then(r => r.json())
-      .then(data => {
-        if (data && Object.keys(data).length) {
-          // transforma em array de objetos para renderizar cards
-          const arr = Object.keys(data).map(name => ({
-            name,
-            color: data[name].color,
-            rgb: data[name].rgb,
-            token: btoa(name)
-          }));
-          setResults(arr);
-        } else {
-          setResults([]);
-        }
-      })
-      .catch(err => {
-        console.error('Erro carregando sorteio:', err);
-        setResults([]);
-      });
+    fetch("/api/get-sorteio")
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setResults(data || []))
+      .catch(() => {});
   }, []);
 
+  // Função para gerar novo sorteio
   const embaralharEGerar = async () => {
-    // embaralha e atribui 2 por cor
     const shuffled = [...madrinhasLista].sort(() => Math.random() - 0.5);
     const pairs = [];
     for (let i = 0; i < colors.length; i++) {
-      pairs.push({ m1: shuffled[i*2], m2: shuffled[i*2+1], color: colors[i] });
+      pairs.push({
+        madrinha1: shuffled[i * 2],
+        madrinha2: shuffled[i * 2 + 1],
+        color: colors[i]
+      });
     }
     const links = [];
     pairs.forEach(p => {
-      links.push({ name: p.m1, color: p.color.name, rgb: p.color.rgb, token: btoa(p.m1) });
-      links.push({ name: p.m2, color: p.color.name, rgb: p.color.rgb, token: btoa(p.m2) });
+      links.push({ name: p.madrinha1, color: p.color.name, rgb: p.color.rgb, token: btoa(p.madrinha1) });
+      links.push({ name: p.madrinha2, color: p.color.name, rgb: p.color.rgb, token: btoa(p.madrinha2) });
     });
     setResults(links);
 
-    // prepara objeto para salvar no repo via API
-    const objToSave = {};
-    links.forEach(l => {
-      objToSave[l.name] = { color: l.color, rgb: l.rgb };
+    setLoading(true);
+    await fetch("/api/save-sorteio", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sorteio: links }),
     });
-
-    // chama API que faz commit no GitHub (ver /pages/api/save-sorteio.js)
-    setLoadingSave(true);
-    const resp = await fetch('/api/save-sorteio', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sorteio: objToSave })
-    });
-    setLoadingSave(false);
-    if (resp.ok) {
-      alert('Sorteio salvo no repositório — pronto para qualquer pessoa abrir os convites.');
-    } else {
-      const txt = await resp.text();
-      alert('Erro ao salvar no repositório: ' + txt);
-    }
+    setLoading(false);
   };
 
+  // Apagar sorteio
   const apagarSorteio = async () => {
-    if (!confirm('Deseja apagar o sorteio no repositório (isto removerá o arquivo)?')) return;
-    setLoadingSave(true);
-    const resp = await fetch('/api/delete-sorteio', { method: 'POST' });
-    setLoadingSave(false);
-    if (resp.ok) {
-      setResults([]);
-      alert('Sorteio apagado.');
+    setLoading(true);
+    await fetch("/api/delete-sorteio", { method: "DELETE" });
+    setResults([]);
+    setLoading(false);
+  };
+
+  // Download .txt
+  const downloadTxt = (type) => {
+    if (results.length === 0) return alert("Nenhum sorteio gerado ainda!");
+    let text = "";
+    if (type === "nomes") {
+      text = results.map(r => `${r.name} - ${r.color}`).join("\n");
+      saveAs(new Blob([text], { type: "text/plain;charset=utf-8" }), "madrinhas_cores.txt");
     } else {
-      const txt = await resp.text();
-      alert('Erro ao apagar: ' + txt);
+      text = results.map(r => `${r.name}: ${window.location.origin}/madrinha?token=${r.token}`).join("\n");
+      saveAs(new Blob([text], { type: "text/plain;charset=utf-8" }), "madrinhas_links.txt");
     }
   };
 
-  const downloadTxt = (type) => {
-    if (!results || results.length === 0) return alert('Nenhum sorteio gerado ainda.');
-    let text = '';
-    if (type === 'nomes') {
-      text = results.map(r => `${r.name} - ${r.color}`).join('\n');
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      saveAs(blob, 'madrinhas_cores.txt');
-    } else {
-      text = results.map(r => `${r.name}: ${window.location.origin}/madrinha?token=${r.token}&color=${encodeURIComponent(r.color)}`).join('\n');
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      saveAs(blob, 'madrinhas_links.txt');
-    }
-  };
+  if (enteredPassword !== PASSWORD) {
+    return (
+      <div style={loginStyle}>
+        <h2>💍 Painel da Noiva</h2>
+        <p>Digite a senha para acessar:</p>
+        <input
+          type="password"
+          value={enteredPassword}
+          onChange={e => setEnteredPassword(e.target.value)}
+          placeholder="Senha"
+          style={inputStyle}
+        />
+      </div>
+    );
+  }
 
   return (
-    <div style={{ padding: 24, fontFamily: 'Poppins, sans-serif', minHeight: '100vh', background: '#f7f7f8' }}>
-      {enteredPassword !== PASSWORD ? (
-        <div style={{ textAlign: 'center', marginTop: 120 }}>
-          <h2>🔒 Painel da Noiva</h2>
-          <p>Coloque a senha para acessar</p>
-          <input
-            type="password"
-            placeholder="Senha"
-            value={enteredPassword}
-            onChange={e => setEnteredPassword(e.target.value)}
-            style={{ padding: 10, borderRadius: 8, width: 200, border: '1px solid #ccc' }}
-          />
-        </div>
-      ) : (
-        <>
-          <h1 style={{ textAlign: 'center', color: '#9B59B6' }}>💍 Cores das Madrinhas</h1>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 16, flexWrap: 'wrap' }}>
-            <button onClick={embaralharEGerar} style={btn('#9B59B6')}>{loadingSave ? 'Salvando...' : '🔀 Sortear e Salvar'}</button>
-            <button onClick={() => { fetch('/api/get-sorteio').then(r=>r.json()).then(data=>{ if (!data || Object.keys(data).length===0) { alert('Nenhum sorteio público encontrado.'); return; } const arr = Object.keys(data).map(name=>({ name, color: data[name].color, rgb: data[name].rgb, token: btoa(name) })); setResults(arr); })}} style={btn('#6C3483')}>👀 Ver sorteio público</button>
-            <button onClick={apagarSorteio} style={btn('#E74C3C')}>🧹 Apagar sorteio</button>
-            <button onClick={() => downloadTxt('nomes')} style={btn('#1ABC9C')}>📄 Baixar (nomes+cores)</button>
-            <button onClick={() => downloadTxt('links')} style={btn('#3498DB')}>🔗 Baixar (links)</button>
-          </div>
+    <div style={pageStyle}>
+      <h1 style={{ textAlign: "center", marginBottom: 30 }}>Painel da Noiva 👰</h1>
 
-          <div style={{ marginTop: 30, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
-            {(results || []).map(r => (
-              <div key={r.name} style={{ background: r.rgb, color: '#fff', borderRadius: 12, padding: 18, textAlign: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }}>
-                <div style={{ fontSize: 18, fontWeight: 700 }}>{r.name}</div>
-                <div style={{ marginTop: 8 }}>{r.color}</div>
-                <a style={{ color: '#fff', marginTop: 10, display: 'inline-block', textDecoration: 'underline' }} href={`/madrinha?token=${r.token}&color=${encodeURIComponent(r.color)}`} target="_blank" rel="noreferrer">Ver convite</a>
-              </div>
-            ))}
+      <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 15, marginBottom: 30 }}>
+        <button onClick={embaralharEGerar} style={btn("#4CAF50")}>🎨 Embaralhar e Gerar</button>
+        <button onClick={() => downloadTxt("nomes")} style={btn("#FF9800")}>📋 Baixar Nomes</button>
+        <button onClick={() => downloadTxt("links")} style={btn("#2196F3")}>🔗 Baixar Links</button>
+        <button onClick={apagarSorteio} style={btn("#E91E63")}>🗑️ Apagar Sorteio</button>
+      </div>
+
+      {loading && <p style={{ textAlign: "center" }}>⏳ Salvando...</p>}
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "center" }}>
+        {results.map(r => (
+          <div key={r.name} style={{
+            width: 200, height: 120, backgroundColor: r.rgb, color: "#fff",
+            display: "flex", flexDirection: "column", justifyContent: "center",
+            alignItems: "center", borderRadius: 12, boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
+          }}>
+            <div style={{ marginBottom: 8 }}>
+              👗 {r.name}<br />{r.color}
+            </div>
+            <a
+              href={`${window.location.origin}/madrinha?token=${r.token}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#fff", textDecoration: "underline", fontSize: 14 }}
+            >
+              Ver Convite 💌
+            </a>
           </div>
-        </>
-      )}
+        ))}
+      </div>
     </div>
   );
 }
 
-function btn(bg) {
-  return { padding: '10px 16px', borderRadius: 8, border: 'none', background: bg, color: '#fff', cursor: 'pointer', fontWeight: '600' };
-}
+const btn = color => ({
+  padding: "10px 16px",
+  background: color,
+  color: "#fff",
+  border: "none",
+  borderRadius: 8,
+  cursor: "pointer",
+  fontWeight: "bold",
+  fontSize: 14,
+  boxShadow: "0 3px 10px rgba(0,0,0,0.15)"
+});
+
+const pageStyle = {
+  padding: 30,
+  fontFamily: "Poppins, sans-serif",
+  background: "linear-gradient(135deg, #fff, #f3f3f3)",
+  minHeight: "100vh",
+};
+
+const loginStyle = {
+  padding: 50,
+  textAlign: "center",
+  fontFamily: "Poppins, sans-serif",
+  height: "100vh",
+  background: "linear-gradient(135deg, #f8f8f8, #ececec)"
+};
+
+const inputStyle = {
+  padding: 10,
+  fontSize: 16,
+  borderRadius: 8,
+  border: "1px solid #ccc",
+  marginTop: 10,
+  width: "200px",
+  textAlign: "center"
+};
