@@ -47,55 +47,20 @@ export default async function handler(req, res) {
 }*/
 
 // pages/api/delete-sorteio.js
-import fetch from "node-fetch";
-
-export default async function handler(req, res) {
-  if (req.method !== "POST")
-    return res.status(405).end("Método não permitido");
-
-  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-  const GITHUB_REPO = process.env.GITHUB_REPO; // ex: suzinogueira/coresmadrinhavitoria
-  const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
-  const path = "public/sorteio.json";
-  const apiBase = "https://api.github.com";
-
-  if (!GITHUB_TOKEN || !GITHUB_REPO)
-    return res
-      .status(500)
-      .send("Falta configurar GITHUB_TOKEN ou GITHUB_REPO");
+// pages/api/delete-sorteio.js
+export default function handler(req, res) {
+  if (req.method !== 'DELETE') {
+    return res.status(405).json({ message: 'Método não permitido' });
+  }
 
   try {
-    // 1️⃣ Primeiro pega o SHA do arquivo (obrigatório para deletar)
-    const getUrl = `${apiBase}/repos/${GITHUB_REPO}/contents/${encodeURIComponent(
-      path
-    )}?ref=${GITHUB_BRANCH}`;
-
-    const getRes = await fetch(getUrl, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-        "User-Agent": "sorteio-app",
-      },
-    });
-
-    if (getRes.status === 404) {
-      return res.status(404).send("Arquivo não encontrado");
-    }
-
-    const getData = await getRes.json();
-    const sha = getData.sha;
-
-    // 2️⃣ Agora faz o DELETE
-    const deleteUrl = `${apiBase}/repos/${GITHUB_REPO}/contents/${encodeURIComponent(
-      path
-    )}`;
-
-    const deleteRes = await fetch(deleteUrl, {
-      method: "DELETE",
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-        "User-Agent": "sorteio-app",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: "
-
+    // Simulação de exclusão
+    console.log('Sorteio público apagado com sucesso (simulado).');
+    
+    // Resposta de sucesso
+    return res.status(200).json({ message: 'Sorteio público apagado com sucesso (simulado)' });
+  } catch (err) {
+    console.error('Erro ao apagar sorteio:', err);
+    return res.status(500).json({ message: 'Erro ao apagar sorteio' });
+  }
+}
