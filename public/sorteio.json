@@ -1,9 +1,9 @@
 {
-  "Gracieli": {
+  "Guiomar": {
     "color": "Verde Esmeralda",
     "rgb": "rgb(80, 200, 120)"
   },
-  "Almira": {
+  "Aldri": {
     "color": "Verde Esmeralda",
     "rgb": "rgb(80, 200, 120)"
   },
@@ -11,27 +11,27 @@
     "color": "Azul Serenity",
     "rgb": "rgb(130, 180, 240)"
   },
-  "Ketlin": {
+  "Gracieli": {
     "color": "Azul Serenity",
     "rgb": "rgb(130, 180, 240)"
-  },
-  "Aldri": {
-    "color": "Lilás",
-    "rgb": "rgb(200, 160, 240)"
   },
   "Thalyta": {
     "color": "Lilás",
     "rgb": "rgb(200, 160, 240)"
   },
-  "Simone": {
-    "color": "Rosa Pink",
-    "rgb": "rgb(255, 100, 180)"
-  },
   "Graziele": {
+    "color": "Lilás",
+    "rgb": "rgb(200, 160, 240)"
+  },
+  "Elisângela": {
     "color": "Rosa Pink",
     "rgb": "rgb(255, 100, 180)"
   },
-  "Kelly": {
+  "Nelzi": {
+    "color": "Rosa Pink",
+    "rgb": "rgb(255, 100, 180)"
+  },
+  "Simone": {
     "color": "Amarelo",
     "rgb": "rgb(255, 230, 50)"
   },
@@ -39,15 +39,15 @@
     "color": "Amarelo",
     "rgb": "rgb(255, 230, 50)"
   },
-  "Eduarda": {
+  "Ketlin": {
     "color": "Roxo Ametista",
     "rgb": "rgb(150, 100, 200)"
   },
-  "Bruna": {
+  "Sara": {
     "color": "Roxo Ametista",
     "rgb": "rgb(150, 100, 200)"
   },
-  "Nelzi": {
+  "Daniela": {
     "color": "Terracota",
     "rgb": "rgb(210, 120, 80)"
   },
@@ -55,27 +55,27 @@
     "color": "Terracota",
     "rgb": "rgb(210, 120, 80)"
   },
-  "Daniela": {
+  "Leni": {
     "color": "Azul Royal",
     "rgb": "rgb(30, 60, 200)"
   },
-  "Elisângela": {
+  "Kelly": {
     "color": "Azul Royal",
     "rgb": "rgb(30, 60, 200)"
-  },
-  "Sara": {
-    "color": "Azul Marinho",
-    "rgb": "rgb(10, 20, 80)"
   },
   "Jamile": {
     "color": "Azul Marinho",
     "rgb": "rgb(10, 20, 80)"
   },
-  "Guiomar": {
+  "Bruna": {
+    "color": "Azul Marinho",
+    "rgb": "rgb(10, 20, 80)"
+  },
+  "Eduarda": {
     "color": "Verde Água",
     "rgb": "rgb(120, 240, 200)"
   },
-  "Leni": {
+  "Almira": {
     "color": "Verde Água",
     "rgb": "rgb(120, 240, 200)"
   }
