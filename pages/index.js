@@ -16,64 +16,64 @@ const colors = [
   { name: "Verde Água", rgb: "rgb(120, 240, 200)" },
 ];
 
-const madrinhasLista = [
-  "Nelzi","Aldri","Kátia","Gracieli","Ana Beatriz",
-  "Elisângela","Eduarda","Ketlin","Jamile","Simone",
-  "Sara","Guiomar","Thalyta","Rebeca","Bruna",
-  "Daniela","Graziele","Leni","Almira","Kelly"
-];
+// 🔸 separação dos lados
+const ladoNoiva = ["Nelzi","Aldri","Katia","Gracieli","Ana Beatriz","Elisângela","Eduarda","Ketlin","Jamile","Simone"];
+const ladoNoivo = ["Sara","Guiomar","Thalyta","Rebeca","Bruna","Daniela","Graziele","Leni","Almira","Kelly"];
 
 export default function Admin() {
   const [enteredPassword, setEnteredPassword] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState({ noiva: [], noivo: [] });
   const [loadingSave, setLoadingSave] = useState(false);
 
-  // 🔹 carrega o sorteio existente (se houver)
+  // 🔹 carrega sorteio existente
   useEffect(() => {
     fetch('/api/get-sorteio')
-      .then(async (r) => {
-        if (!r.ok) {
-          console.warn('Nenhum sorteio encontrado ainda.');
-          return {};
-        }
-        return r.json();
-      })
+      .then(async (r) => (r.ok ? r.json() : {}))
       .then(data => {
         if (data && Object.keys(data).length > 0) {
-          const arr = Object.keys(data).map(name => ({
-            name,
-            color: data[name].color,
-            rgb: data[name].rgb,
-            token: btoa(name)
-          }));
-          setResults(arr);
-        } else {
-          setResults([]);
+          const noiva = Object.keys(data)
+            .filter(name => ladoNoiva.includes(name))
+            .map(name => ({ name, color: data[name].color, rgb: data[name].rgb, token: btoa(name) }));
+          const noivo = Object.keys(data)
+            .filter(name => ladoNoivo.includes(name))
+            .map(name => ({ name, color: data[name].color, rgb: data[name].rgb, token: btoa(name) }));
+          setResults({ noiva, noivo });
         }
       })
-      .catch(err => {
-        console.error('Erro carregando sorteio:', err);
-        setResults([]);
-      });
+      .catch(() => setResults({ noiva: [], noivo: [] }));
   }, []);
 
-  // 🔹 sorteia e salva no GitHub
+  // 🔹 função de sorteio
   const embaralharEGerar = async () => {
-    const shuffled = [...madrinhasLista].sort(() => Math.random() - 0.5);
-    const pairs = [];
-    for (let i = 0; i < colors.length; i++) {
-      pairs.push({ m1: shuffled[i*2], m2: shuffled[i*2+1], color: colors[i] });
+    // se já houver sorteio salvo, confirmar substituição
+    if ((results.noiva.length || results.noivo.length) && !confirm('⚠️ Já existe um sorteio salvo. Deseja substituir o atual?')) {
+      return;
     }
-    const links = [];
-    pairs.forEach(p => {
-      links.push({ name: p.m1, color: p.color.name, rgb: p.color.rgb, token: btoa(p.m1) });
-      links.push({ name: p.m2, color: p.color.name, rgb: p.color.rgb, token: btoa(p.m2) });
-    });
-    setResults(links);
+
+    const shuffle = arr => [...arr].sort(() => Math.random() - 0.5);
+
+    const shuffledNoiva = shuffle(ladoNoiva);
+    const shuffledNoivo = shuffle(ladoNoivo);
+
+    const noivaResult = shuffledNoiva.map((name, i) => ({
+      name,
+      color: colors[i].name,
+      rgb: colors[i].rgb,
+      token: btoa(name)
+    }));
+
+    const noivoResult = shuffledNoivo.map((name, i) => ({
+      name,
+      color: colors[i].name,
+      rgb: colors[i].rgb,
+      token: btoa(name)
+    }));
+
+    setResults({ noiva: noivaResult, noivo: noivoResult });
 
     const objToSave = {};
-    links.forEach(l => {
-      objToSave[l.name] = { color: l.color, rgb: l.rgb };
+    [...noivaResult, ...noivoResult].forEach(r => {
+      objToSave[r.name] = { color: r.color, rgb: r.rgb };
     });
 
     setLoadingSave(true);
@@ -85,60 +85,46 @@ export default function Admin() {
     setLoadingSave(false);
 
     if (resp.ok) {
-      alert('🎉 Sorteio salvo com sucesso! As madrinhas já podem abrir seus convites.');
+      alert('🎉 Sorteio salvo com sucesso!');
     } else {
       const txt = await resp.text();
-      alert('Erro ao salvar no repositório: ' + txt);
+      alert('Erro ao salvar: ' + txt);
     }
   };
 
-  // 🔹 apaga o sorteio existente
+  // 🔹 baixa arquivos .txt
+  const downloadTxt = (type) => {
+    if (!results.noiva.length && !results.noivo.length) return alert('Nenhum sorteio gerado ainda.');
+
+    let text = '';
+    if (type === 'nomes') {
+      text += '💖 Lado da Noiva\n';
+      text += results.noiva.map(r => `${r.name} - ${r.color}`).join('\n') + '\n\n';
+      text += '🤵 Lado do Noivo\n';
+      text += results.noivo.map(r => `${r.name} - ${r.color}`).join('\n');
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      saveAs(blob, 'madrinhas_cores.txt');
+    } else {
+      text += '💖 Lado da Noiva\n';
+      text += results.noiva.map(r => `${r.name}: ${window.location.origin}/madrinha?token=${r.token}&color=${encodeURIComponent(r.color)}`).join('\n') + '\n\n';
+      text += '🤵 Lado do Noivo\n';
+      text += results.noivo.map(r => `${r.name}: ${window.location.origin}/madrinha?token=${r.token}&color=${encodeURIComponent(r.color)}`).join('\n');
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      saveAs(blob, 'madrinhas_links.txt');
+    }
+  };
+
+  // 🔹 apaga sorteio existente
   const apagarSorteio = async () => {
     if (!confirm('Tem certeza que deseja apagar o sorteio atual?')) return;
     setLoadingSave(true);
     const resp = await fetch('/api/delete-sorteio', { method: 'POST' });
     setLoadingSave(false);
     if (resp.ok) {
-      setResults([]);
+      setResults({ noiva: [], noivo: [] });
       alert('Sorteio apagado.');
     } else {
-      const txt = await resp.text();
-      alert('Erro ao apagar: ' + txt);
-    }
-  };
-
-  // 🔹 baixa arquivo txt
-  const downloadTxt = (type) => {
-    if (!results.length) return alert('Nenhum sorteio gerado ainda.');
-    let text = '';
-    if (type === 'nomes') {
-      text = results.map(r => `${r.name} - ${r.color}`).join('\n');
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      saveAs(blob, 'madrinhas_cores.txt');
-    } else {
-      text = results.map(r => `${r.name}: ${window.location.origin}/madrinha?token=${r.token}&color=${encodeURIComponent(r.color)}`).join('\n');
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      saveAs(blob, 'madrinhas_links.txt');
-    }
-  };
-
-  // 🔹 ver sorteio público (sem quebrar se não existir)
-  const verSorteioPublico = async () => {
-    try {
-      const r = await fetch('/api/get-sorteio');
-      if (!r.ok) return alert('Nenhum sorteio público encontrado ainda.');
-      const data = await r.json();
-      if (!data || Object.keys(data).length === 0) return alert('Nenhum sorteio público encontrado.');
-      const arr = Object.keys(data).map(name => ({
-        name,
-        color: data[name].color,
-        rgb: data[name].rgb,
-        token: btoa(name)
-      }));
-      setResults(arr);
-    } catch (err) {
-      alert('Erro ao carregar sorteio público.');
-      console.error(err);
+      alert('Erro ao apagar sorteio.');
     }
   };
 
@@ -147,7 +133,6 @@ export default function Admin() {
       {enteredPassword !== PASSWORD ? (
         <div style={{ textAlign: 'center', marginTop: 120 }}>
           <h2>🔒 Painel da Noiva</h2>
-          <p>Coloque a senha para acessar</p>
           <input
             type="password"
             placeholder="Senha"
@@ -161,20 +146,22 @@ export default function Admin() {
           <h1 style={{ textAlign: 'center', color: '#9B59B6' }}>💍 Cores das Madrinhas</h1>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 16, flexWrap: 'wrap' }}>
             <button onClick={embaralharEGerar} style={btn('#9B59B6')}>{loadingSave ? 'Salvando...' : '🔀 Sortear e Salvar'}</button>
-            <button onClick={verSorteioPublico} style={btn('#6C3483')}>👀 Ver sorteio público</button>
             <button onClick={apagarSorteio} style={btn('#E74C3C')}>🧹 Apagar sorteio</button>
             <button onClick={() => downloadTxt('nomes')} style={btn('#1ABC9C')}>📄 Baixar (nomes+cores)</button>
             <button onClick={() => downloadTxt('links')} style={btn('#3498DB')}>🔗 Baixar (links)</button>
           </div>
 
-          <div style={{ marginTop: 30, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
-            {(results || []).map(r => (
-              <div key={r.name} style={{ background: r.rgb, color: '#fff', borderRadius: 12, padding: 18, textAlign: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }}>
-                <div style={{ fontSize: 18, fontWeight: 700 }}>{r.name}</div>
-                <div style={{ marginTop: 8 }}>{r.color}</div>
-                <a style={{ color: '#fff', marginTop: 10, display: 'inline-block', textDecoration: 'underline' }} href={`/madrinha?token=${r.token}&color=${encodeURIComponent(r.color)}`} target="_blank" rel="noreferrer">Ver convite</a>
-              </div>
-            ))}
+          {/* --- Seções separadas --- */}
+          <div style={{ marginTop: 30 }}>
+            <h2>💖 Lado da Noiva</h2>
+            <div style={grid}>
+              {results.noiva.map(r => card(r))}
+            </div>
+
+            <h2 style={{ marginTop: 40 }}>🤵 Lado do Noivo</h2>
+            <div style={grid}>
+              {results.noivo.map(r => card(r))}
+            </div>
           </div>
         </>
       )}
@@ -182,6 +169,15 @@ export default function Admin() {
   );
 }
 
-function btn(bg) {
-  return { padding: '10px 16px', borderRadius: 8, border: 'none', background: bg, color: '#fff', cursor: 'pointer', fontWeight: '600' };
+function card(r) {
+  return (
+    <div key={r.name} style={{ background: r.rgb, color: '#fff', borderRadius: 12, padding: 18, textAlign: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }}>
+      <div style={{ fontSize: 18, fontWeight: 700 }}>{r.name}</div>
+      <div style={{ marginTop: 8 }}>{r.color}</div>
+      <a style={{ color: '#fff', marginTop: 10, display: 'inline-block', textDecoration: 'underline' }} href={`/madrinha?token=${r.token}&color=${encodeURIComponent(r.color)}`} target="_blank" rel="noreferrer">Ver convite</a>
+    </div>
+  );
 }
+
+const grid = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20, marginTop: 10 };
+const btn = (bg) => ({ padding: '10px 16px', borderRadius: 8, border: 'none', background: bg, color: '#fff', cursor: 'pointer', fontWeight: '600' });
