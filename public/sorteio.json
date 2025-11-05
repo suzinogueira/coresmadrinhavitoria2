@@ -1,0 +1,82 @@
+{
+  "Nelzi": {
+    "color": "Verde Esmeralda",
+    "rgb": "rgb(80, 200, 120)"
+  },
+  "Jamile": {
+    "color": "Azul Serenity",
+    "rgb": "rgb(130, 180, 240)"
+  },
+  "Eduarda": {
+    "color": "Lilás",
+    "rgb": "rgb(200, 160, 240)"
+  },
+  "Katia": {
+    "color": "Rosa Pink",
+    "rgb": "rgb(255, 100, 180)"
+  },
+  "Elisângela": {
+    "color": "Amarelo",
+    "rgb": "rgb(255, 230, 50)"
+  },
+  "Ketlin": {
+    "color": "Roxo Ametista",
+    "rgb": "rgb(150, 100, 200)"
+  },
+  "Gracieli": {
+    "color": "Terracota",
+    "rgb": "rgb(210, 120, 80)"
+  },
+  "Aldri": {
+    "color": "Azul Royal",
+    "rgb": "rgb(30, 60, 200)"
+  },
+  "Ana Beatriz": {
+    "color": "Azul Marinho",
+    "rgb": "rgb(10, 20, 80)"
+  },
+  "Simone": {
+    "color": "Verde Água",
+    "rgb": "rgb(120, 240, 200)"
+  },
+  "Thalyta": {
+    "color": "Verde Esmeralda",
+    "rgb": "rgb(80, 200, 120)"
+  },
+  "Almira": {
+    "color": "Azul Serenity",
+    "rgb": "rgb(130, 180, 240)"
+  },
+  "Daniela": {
+    "color": "Lilás",
+    "rgb": "rgb(200, 160, 240)"
+  },
+  "Leni": {
+    "color": "Rosa Pink",
+    "rgb": "rgb(255, 100, 180)"
+  },
+  "Rebeca": {
+    "color": "Amarelo",
+    "rgb": "rgb(255, 230, 50)"
+  },
+  "Guiomar": {
+    "color": "Roxo Ametista",
+    "rgb": "rgb(150, 100, 200)"
+  },
+  "Graziele": {
+    "color": "Terracota",
+    "rgb": "rgb(210, 120, 80)"
+  },
+  "Kelly": {
+    "color": "Azul Royal",
+    "rgb": "rgb(30, 60, 200)"
+  },
+  "Bruna": {
+    "color": "Azul Marinho",
+    "rgb": "rgb(10, 20, 80)"
+  },
+  "Sara": {
+    "color": "Verde Água",
+    "rgb": "rgb(120, 240, 200)"
+  }
+}
