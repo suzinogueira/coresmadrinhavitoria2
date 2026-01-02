@@ -17,8 +17,8 @@ const colors = [
 ];
 
 // 🔸 separação dos lados
-const ladoNoiva = ["Nelzi","Aldri","Katia","Gracieli","Ana Beatriz","Elisangela","Eduarda","Ketlin","Jamile","Simone"];
-const ladoNoivo = ["Sara","Guiomar","Thalyta","Rebeca","Bruna","Daniela","Graziele","Leni","Almira","Kelly"];
+const ladoNoiva = ["Nelzi","Aldri","Katia","Gracieli","Ana Beatriz","Elisangela","Eduarda","Ketlin","Jamile","Sara"];
+const ladoNoivo = ["Sara","Guiomar","Talita","Rebeca","Bruna","Daniela","Graziele","Leni","Almira","Kelly"];
 
 export default function Admin() {
   const [enteredPassword, setEnteredPassword] = useState("");
